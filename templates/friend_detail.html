@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}{{ friend.name }}{% endblock %}
+{% block content %}
+<div class="flex items-center gap-3 mb-6">
+    <a href="/friends" class="text-gray-500 hover:text-gray-300 transition">&larr;</a>
+    <h1 class="text-2xl font-bold">{{ friend.name }}</h1>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Profile -->
+    <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-lg font-semibold mb-4">Profile</h2>
+        <form method="post" action="/friends/{{ friend.id }}/edit" class="space-y-4">
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">Name</label>
+                <input type="text" name="name" value="{{ friend.name }}" required
+                       class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-purple-500 transition">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">Email</label>
+                <input type="email" name="email" value="{{ friend.email or '' }}"
+                       class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-purple-500 transition">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">Telegram ID</label>
+                <input type="text" name="telegram_id" value="{{ friend.telegram_id or '' }}"
+                       class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-purple-500 transition">
+            </div>
+            <div class="flex gap-3">
+                <button type="submit"
+                        class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition">
+                    Save
+                </button>
+            </div>
+        </form>
+        <form method="post" action="/friends/{{ friend.id }}/delete" class="mt-4"
+              onsubmit="return confirm('Delete this friend?')">
+            <button type="submit" class="text-red-400 hover:text-red-300 text-sm transition">Delete friend</button>
+        </form>
+    </div>
+
+    <!-- Invite Link -->
+    <div class="space-y-6">
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h2 class="text-lg font-semibold mb-3">Invite Link</h2>
+            <div class="flex items-center gap-2">
+                <input type="text" value="{{ invite_url }}" readonly id="invite-url"
+                       class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm text-gray-300">
+                <button onclick="navigator.clipboard.writeText(document.getElementById('invite-url').value);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition whitespace-nowrap">
+                    Copy
+                </button>
+            </div>
+            <p class="text-gray-500 text-xs mt-2">This link does not require authentication.</p>
+        </div>
+
+        <!-- Tool Access -->
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h2 class="text-lg font-semibold mb-4">Tool Access</h2>
+            <div class="space-y-3">
+                {% for tool in tools %}
+                {% set access = access_map.get(tool.id) %}
+                <div class="flex items-center justify-between py-2">
+                    <div>
+                        <div class="font-medium text-sm">{{ tool.name }}</div>
+                        {% if tool.status == 'coming_soon' %}
+                        <span class="text-yellow-500 text-xs">Coming Soon</span>
+                        {% endif %}
+                    </div>
+                    <form method="post" action="/friends/{{ friend.id }}/toggle/{{ tool.id }}">
+                        <button type="submit"
+                                class="relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none
+                                       {% if access and access.enabled %}bg-purple-600{% else %}bg-gray-700{% endif %}">
+                            <span class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200
+                                         {% if access and access.enabled %}translate-x-6{% endif %}"></span>
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

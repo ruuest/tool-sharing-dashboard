@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tool Sharing{% endblock %} | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+    {% block nav %}
+    <nav class="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="/" class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Tool Sharing
+            </a>
+            <div class="flex gap-4 text-sm">
+                <a href="/" class="text-gray-400 hover:text-white transition">Dashboard</a>
+                <a href="/friends" class="text-gray-400 hover:text-white transition">Friends</a>
+                <a href="/tools" class="text-gray-400 hover:text-white transition">Tools</a>
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

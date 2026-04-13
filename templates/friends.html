@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Friends{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold">Friends</h1>
+</div>
+
+<!-- Add Friend Form -->
+<div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Add Friend</h2>
+    <form method="post" action="/friends" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <input type="text" name="name" placeholder="Name *" required
+               class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-purple-500 transition">
+        <input type="email" name="email" placeholder="Email"
+               class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-purple-500 transition">
+        <input type="text" name="telegram_id" placeholder="Telegram ID"
+               class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-purple-500 transition">
+        <div class="sm:col-span-3">
+            <button type="submit"
+                    class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition">
+                Add
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Friends List -->
+<div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+    {% if friends %}
+    <table class="w-full text-sm">
+        <thead class="bg-gray-800/50">
+            <tr>
+                <th class="text-left px-5 py-3 text-gray-400 font-medium">Name</th>
+                <th class="text-left px-5 py-3 text-gray-400 font-medium hidden sm:table-cell">Email</th>
+                <th class="text-left px-5 py-3 text-gray-400 font-medium hidden sm:table-cell">Telegram</th>
+                <th class="text-left px-5 py-3 text-gray-400 font-medium">Shares</th>
+                <th class="px-5 py-3"></th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-800">
+            {% for friend in friends %}
+            <tr class="hover:bg-gray-800/30 transition">
+                <td class="px-5 py-3 font-medium">{{ friend.name }}</td>
+                <td class="px-5 py-3 text-gray-400 hidden sm:table-cell">{{ friend.email or '-' }}</td>
+                <td class="px-5 py-3 text-gray-400 hidden sm:table-cell">{{ friend.telegram_id or '-' }}</td>
+                <td class="px-5 py-3">
+                    <span class="text-purple-400">{{ friend.accesses | selectattr('enabled') | list | length }}</span>
+                </td>
+                <td class="px-5 py-3 text-right">
+                    <a href="/friends/{{ friend.id }}" class="text-blue-400 hover:text-blue-300 transition">Detail</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="px-5 py-8 text-center text-gray-600">No friends yet. Add one above.</div>
+    {% endif %}
+</div>
+{% endblock %}

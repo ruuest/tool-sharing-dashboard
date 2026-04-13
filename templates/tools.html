@@ -1,32 +1,47 @@
 {% extends "base.html" %}
 {% block title %}Tools{% endblock %}
 {% block content %}
-<h1 class="text-2xl font-bold mb-6">Tools</h1>
+<div class="mb-8">
+    <h1 class="text-xl font-semibold text-white">Tools</h1>
+    <p class="text-gray-500 text-sm mt-1">共有可能なツール一覧</p>
+</div>
 
 <div class="space-y-4">
     {% for tool in tools %}
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-        <div class="flex items-start justify-between mb-3">
-            <div>
-                <h2 class="text-lg font-semibold">{{ tool.name }}</h2>
-                <span class="text-gray-500 text-sm">{{ tool.slug }}</span>
+    <div class="card p-5">
+        <div class="flex items-start justify-between mb-4">
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl {% if tool.status == 'active' %}bg-emerald-600/10{% else %}bg-amber-600/10{% endif %} flex items-center justify-center mt-0.5">
+                    {% if tool.status == 'active' %}
+                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {% else %}
+                    <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {% endif %}
+                </div>
+                <div>
+                    <h2 class="text-base font-semibold text-white">{{ tool.name }}</h2>
+                    <span class="text-xs text-gray-600 font-mono">{{ tool.slug }}</span>
+                </div>
             </div>
             <div class="flex items-center gap-3">
-                <span class="text-gray-400 text-sm">{{ share_counts.get(tool.id, 0) }} shares</span>
+                <span class="text-xs text-gray-500">{{ share_counts.get(tool.id, 0) }} shares</span>
                 {% if tool.status == 'active' %}
-                <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-900/50 text-green-400 border border-green-800">Active</span>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400">Active</span>
                 {% elif tool.status == 'coming_soon' %}
-                <span class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-900/50 text-yellow-400 border border-yellow-800">Coming Soon</span>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-400">Coming Soon</span>
                 {% else %}
-                <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-500 border border-gray-700">Inactive</span>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-gray-500/10 text-gray-500">Inactive</span>
                 {% endif %}
             </div>
         </div>
-        <p class="text-gray-400 text-sm mb-4">{{ tool.description }}</p>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">{{ tool.description }}</p>
         {% if tool.config_template %}
         <details class="group">
-            <summary class="text-blue-400 text-sm cursor-pointer hover:text-blue-300 transition">Config Template</summary>
-            <pre class="mt-3 bg-gray-950 border border-gray-800 rounded-lg p-4 text-xs text-gray-300 overflow-x-auto">{{ tool.config_template }}</pre>
+            <summary class="text-brand-400 text-xs font-medium cursor-pointer hover:text-brand-300 transition flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+                Config Template
+            </summary>
+            <pre class="mt-3 bg-[#0a0b0f] border border-white/[0.04] rounded-xl p-4 text-xs text-gray-400 overflow-x-auto font-mono leading-relaxed">{{ tool.config_template }}</pre>
         </details>
         {% endif %}
     </div>

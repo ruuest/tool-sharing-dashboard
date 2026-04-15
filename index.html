@@ -6,20 +6,27 @@
     <title>Tool Hub</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0e0f14; color: #e4e4e7; min-height: 100vh; padding: 40px 20px; }
-        .container { max-width: 520px; margin: 0 auto; }
-        h1 { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
-        .subtitle { font-size: 13px; color: #71717a; margin-bottom: 32px; }
-        .tools { display: flex; flex-direction: column; gap: 12px; }
-        .tool { background: rgba(30,32,40,0.7); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 20px; text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.15s; display: block; }
-        .tool:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-1px); }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0e0f14; color: #e4e4e7; min-height: 100vh; padding: 40px 20px; line-height: 1.6; }
+        .container { max-width: 560px; margin: 0 auto; }
+        h1 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+        .subtitle { font-size: 13px; color: #71717a; margin-bottom: 8px; }
+        .info { font-size: 12px; color: #52525b; margin-bottom: 32px; padding: 12px 14px; background: rgba(92,124,250,0.06); border-left: 2px solid #5c7cfa; border-radius: 6px; }
+        .tools { display: flex; flex-direction: column; gap: 14px; }
+        .tool { background: rgba(30,32,40,0.7); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 22px; transition: border-color 0.2s; }
+        .tool:hover { border-color: rgba(255,255,255,0.12); }
         .tool-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-        .tool-name { font-size: 15px; font-weight: 600; color: #fff; }
+        .tool-name { font-size: 16px; font-weight: 600; color: #fff; }
         .badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; }
         .badge-active { background: rgba(16,185,129,0.1); color: #34d399; }
         .badge-soon { background: rgba(245,158,11,0.1); color: #fbbf24; }
-        .tool-desc { font-size: 13px; color: #a1a1aa; line-height: 1.6; }
-        .tool-author { font-size: 11px; color: #52525b; margin-top: 10px; }
+        .tool-desc { font-size: 13px; color: #a1a1aa; margin-bottom: 14px; }
+        .tool-meta { font-size: 11px; color: #52525b; margin-bottom: 14px; display: flex; gap: 12px; }
+        .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 500; text-decoration: none; transition: all 0.15s; }
+        .btn-primary { background: linear-gradient(135deg, #4c6ef5, #5c7cfa); color: #fff; }
+        .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: #a1a1aa; border: 1px solid rgba(255,255,255,0.06); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.08); color: #fff; }
         .footer { text-align: center; font-size: 11px; color: #3f3f46; margin-top: 40px; }
     </style>
 </head>
@@ -28,35 +35,58 @@
         <h1>Tool Hub</h1>
         <p class="subtitle">みんなのツール</p>
 
+        <div class="info">
+            各ツールは「Deploy to Render」ボタンで、自分のRenderアカウントにワンクリックでデプロイできます。APIキー・認証情報はあなた自身のものを使うので、安全です。
+        </div>
+
         <div class="tools">
 
-            <a href="https://github.com/ruuest/note-pipeline" target="_blank" class="tool">
+            <div class="tool">
                 <div class="tool-header">
                     <span class="tool-name">Note自動投稿</span>
                     <span class="badge badge-active">Active</span>
                 </div>
-                <p class="tool-desc">キーワードCSVからnote記事を自動生成・投稿。SEO最適化済み。</p>
-                <p class="tool-author">by Ryoka</p>
-            </a>
+                <p class="tool-desc">キーワードからnote記事を自動生成・投稿。Gemini/Claude対応、SEO最適化済み。サムネイル自動生成。</p>
+                <div class="tool-meta">
+                    <span>by Ryoka</span>
+                    <span>Python · FastAPI</span>
+                </div>
+                <div class="actions">
+                    <a href="https://render.com/deploy?repo=https://github.com/ruuest/note-pipeline" target="_blank" class="btn btn-primary">
+                        Deploy to Render
+                    </a>
+                    <a href="https://github.com/ruuest/note-pipeline" target="_blank" class="btn btn-secondary">
+                        Source
+                    </a>
+                </div>
+            </div>
 
-            <div class="tool" style="cursor: default; opacity: 0.6;">
+            <div class="tool" style="opacity: 0.6;">
                 <div class="tool-header">
                     <span class="tool-name">SNS自動投稿</span>
                     <span class="badge badge-soon">Coming Soon</span>
                 </div>
                 <p class="tool-desc">X / Instagram / Threadsへの一括自動投稿。AIがハッシュタグと投稿時間を最適化。</p>
-                <p class="tool-author">by Ryoka</p>
+                <div class="tool-meta">
+                    <span>by Ryoka</span>
+                </div>
             </div>
 
-            <!-- ツール追加テンプレ:
-            <a href="URL" target="_blank" class="tool">
+            <!-- 友達のツール追加テンプレ:
+            <div class="tool">
                 <div class="tool-header">
                     <span class="tool-name">ツール名</span>
                     <span class="badge badge-active">Active</span>
                 </div>
                 <p class="tool-desc">説明</p>
-                <p class="tool-author">by 作者名</p>
-            </a>
+                <div class="tool-meta">
+                    <span>by 名前</span>
+                </div>
+                <div class="actions">
+                    <a href="https://render.com/deploy?repo=GITHUB_REPO_URL" target="_blank" class="btn btn-primary">Deploy to Render</a>
+                    <a href="GITHUB_REPO_URL" target="_blank" class="btn btn-secondary">Source</a>
+                </div>
+            </div>
             -->
 
         </div>
